@@ -31,9 +31,18 @@ myDB(async (client) => {
   app.route('/').get((req, res) => {
     res.render(process.cwd()+'/views/pug', {
       title: 'Connected to Database',
-      message: 'Please login'
+      message: 'Please login',
+      showLogin : true
     });
   });
+
+  app.route('/login').post(passport.authenticate('local',{ failureRedirect: '/' }),(req,res)=>{
+      res.redirect('/');
+  });
+
+  app.route('/profile').get((req,res)=>{
+    res.render(process.cwd()+'/views/pug/profile');
+  })
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
