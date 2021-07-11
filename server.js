@@ -31,3 +31,13 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
 });
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+// passport.deserializeUser((id, done) => {
+//   myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
+//     done(null, null);
+//   });
+// });
