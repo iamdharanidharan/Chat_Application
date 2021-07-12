@@ -42,7 +42,17 @@ myDB(async (client) => {
 
   app.route('/profile').get((req,res)=>{
     res.render(process.cwd()+'/views/pug/profile');
-  })
+  });
+
+  // Serialization and deserialization
+  passport.serializeUser((user, done) => {
+    done(null, user._id);
+  });
+  passport.deserializeUser((id, done) => {
+    myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
+      done(null, doc);
+    });
+  });
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
@@ -55,16 +65,7 @@ myDB(async (client) => {
       });
     }
   ));
-
-  // Serialization and deserialization
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-  passport.deserializeUser((id, done) => {
-    myDataBase.findOne({ _id: new ObjectID(id) }, (err, doc) => {
-      done(null, doc);
-    });
-  });
+  
 }).catch((e) => {
   app.route('/').get((req, res) => {
     res.render(process.cwd()+'/views/pug', { title: e, message: 'Unable to login' });
