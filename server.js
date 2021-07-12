@@ -26,6 +26,15 @@ app.use(session({
 
 app.set('view engine', 'pug');
 
+//Middlewares
+let ensureAuthenticated = (req, res, next) => {
+  if(req.isAuthenticated()){
+    return next();
+  } else{
+    res.redirect('/');
+  }
+}
+
 myDB(async (client) => {
   const myDataBase = await client.db('ChatApp_FCC').collection('users');
 
@@ -44,14 +53,6 @@ myDB(async (client) => {
   app.route('/profile').get(ensureAuthenticated, (req,res) => {
     res.render(process.cwd()+'/views/pug/profile');
   });
-
-  let ensureAuthenticated = (req, res, next) => {
-    if(req.isAuthenticated()){
-      return next();
-    } else{
-      res.redirect('/');
-    }
-  }
 
   // Serialization and deserialization
   passport.serializeUser((user, done) => {
