@@ -1,4 +1,4 @@
-/* 
+ 
 'use strict';
 require('dotenv').config();
 const express = require('express');
@@ -30,7 +30,7 @@ myDB(async (client) => {
   const myDataBase = await client.db('ChatApp_FCC').collection('users');
 
   app.route('/').get((req, res) => {
-    res.render(process.cwd()+'/views/pug', {
+    res.render('pug', {
       title: 'Connected to Database',
       message: 'Please login',
       showLogin : true
@@ -69,7 +69,7 @@ myDB(async (client) => {
 
 }).catch((e) => {
   app.route('/').get((req, res) => {
-    res.render(process.cwd()+'/views/pug', { title: e, message: 'Unable to login' });
+    res.render('pug', { title: e, message: 'Unable to login' });
   });
 });
 
@@ -77,7 +77,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
 });
-*/
+/*
 /////////////////////////////////////////////////////////////////////////
 
 'use strict';
@@ -160,3 +160,4 @@ myDB(async (client) => {
 app.listen(process.env.PORT || 3000, () => {
   console.log('Listening on port ' + process.env.PORT);
 });
+*/
